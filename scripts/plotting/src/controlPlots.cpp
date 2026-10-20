@@ -20,10 +20,19 @@
 #include "TDirectory.h"
 #include "TFile.h"
 #include "TNtuple.h"
+#include "TCanvas.h"
 
 void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain *tpl2, TChain *tpl3) {
 
     Defaults def = getDefaults();
+
+    TCanvas *S = new TCanvas();
+
+    char outfile_ [1024];
+    char outfile_open [1024];
+    char outfile_close [1024];
+
+    SetMyStyle(S);
 }
 
 int main(int argc, char **argv) {
