@@ -9,11 +9,13 @@
 //          <outputFile> is the name of the output pdf file
 //          <inputFileN> is the Nth input root file
 
+#include <cstdio>
 #include <iostream>
 #include <string>
 #include <vector>
 
 #include "controlPlots.hpp"
+#include "TStyle.h"
 #include "defaultValues.hpp"
 #include "helperFunctions.hpp"
 
@@ -32,7 +34,28 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
     char outfile_open [1024];
     char outfile_close [1024];
 
+    sprintf(outfile_open, "%s%s[", outDir.c_str(), outputFile.c_str());
+    sprintf(outfile_, "%s%s", outDir.c_str(), outputFile.c_str());
+    sprintf(outfile_close, "%s%s]", outDir.c_str(), outputFile.c_str());
+
+    S->Print(outfile_open);
+
     SetMyStyle(S);
+    gStyle->SetOptStat("emr");
+
+    // Ntuple1
+    TH1D *h_xmom = new TH1D("h_xmom","Kaon x momentum (pre decay);Momentum, p_{x} [GeV];Counts",100,-5,5);
+    StyleHistogram(h_xmom, kBlue);
+    h_xmom->Draw();
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_xmom");
+
+    S->Clear();
+
+
+    S->Print(outfile_close);
 }
 
 int main(int argc, char **argv) {
