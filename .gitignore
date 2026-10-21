@@ -47,6 +47,14 @@ build-*/
 # install directories
 install/
 
+# out files
+*.root
+*.pdf
+out/
+
+# environment files
+env-*
+
 # CMake generated files
 CMakeFiles/
 CMakeCache.txt
