@@ -15,7 +15,6 @@
 #include <vector>
 
 #include "controlPlots.hpp"
-#include "TStyle.h"
 #include "defaultValues.hpp"
 #include "helperFunctions.hpp"
 
@@ -23,6 +22,8 @@
 #include "TFile.h"
 #include "TNtuple.h"
 #include "TCanvas.h"
+#include "TStyle.h"
+#include "TTree.h"
 
 void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain *tpl2, TChain *tpl3) {
 
@@ -53,6 +54,24 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
     gDirectory->Delete("h_xmom");
 
     S->Clear();
+
+    TH1D *h_ymom = new TH1D("h_ymom","Kaon y momentum (pre decay);Momentum, p_{y} [GeV];Counts",100,-5,5);
+    StyleHistogram(h_ymom, kBlue);
+    h_ymom->Draw();
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_ymom");
+
+    S->Clear();
+
+    TH1D *h_zmom = new TH1D("h_zmom","Kaon z momentum (pre decay);Momentum, p_{z} [GeV];Counts",100,-5,5);
+    StyleHistogram(h_zmom, kBlue);
+    h_zmom->Draw();
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_zmom");
 
 
     S->Print(outfile_close);
@@ -95,7 +114,7 @@ int main(int argc, char **argv) {
         }
 
         // Getting NTuples
-        TNtuple *t_tpl1 = (TNtuple*)f->Get("NTuple1");
+        TTree *t_tpl1 = (TTree*)f->Get("NTuple1");
         if (t_tpl1 == nullptr) {
             std::cerr << "[ERROR] Ntuple1 not found in file " << inputFile << std::endl;
             continue;
@@ -104,7 +123,7 @@ int main(int argc, char **argv) {
             tpl1->Add(inputFile.c_str());
         }
 
-        TNtuple *t_tpl2 = (TNtuple*)f->Get("NTuple2");
+        TTree *t_tpl2 = (TTree*)f->Get("NTuple2");
         if (t_tpl2 == nullptr) {
             std::cerr << "[ERROR] Ntuple2 not found in file " << inputFile << std::endl;
             continue;
@@ -113,7 +132,7 @@ int main(int argc, char **argv) {
             tpl2->Add(inputFile.c_str());
         }
 
-        TNtuple *t_tpl3 = (TNtuple*)f->Get("NTuple3");
+        TTree *t_tpl3 = (TTree*)f->Get("NTuple3");
         if (t_tpl3 == nullptr) {
             std::cerr << "[ERROR] Ntuple3 not found in file " << inputFile << std::endl;
             continue;
