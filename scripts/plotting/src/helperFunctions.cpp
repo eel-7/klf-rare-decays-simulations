@@ -147,6 +147,8 @@ void SetMyStyle(TCanvas *S)
 
     TGaxis::SetMaxDigits(def.maxDigitsAxes);
 
+    gStyle->SetPalette(kViridis);
+
     gROOT->ForceStyle();
 }
 
@@ -190,7 +192,7 @@ void StyleHistogram(TH1* h, Color_t color)
     h->GetXaxis()->SetTitleSize(def.titleSize);
     h->GetYaxis()->SetLabelSize(def.labelSize);
     h->GetYaxis()->SetTitleSize(def.titleSize);
-    h->GetYaxis()->SetLabelOffset(def.labelYoffset);
+    // h->GetYaxis()->SetLabelOffset(def.labelYoffset);
 
     // gROOT->ForceStyle();
 }
@@ -203,20 +205,20 @@ void StyleHistogram(TH2* h, Color_t color)
     h->SetMarkerStyle(20);
     h->SetMarkerSize(1.0);
 
-    gStyle->SetPadLeftMargin(def.leftMargin2d);
-    gStyle->SetPadRightMargin(def.rightMargin2d);
-    gStyle->SetPadBottomMargin(def.bottomMargin2d);
-    gStyle->SetPadTopMargin(def.topMargin2d);
+    // gStyle->SetPadLeftMargin(def.leftMargin2d);
+    // gStyle->SetPadRightMargin(def.rightMargin2d);
+    // gStyle->SetPadBottomMargin(def.bottomMargin2d);
+    // gStyle->SetPadTopMargin(def.topMargin2d);
 
     h->GetXaxis()->SetLabelSize(def.labelSize);
     h->GetXaxis()->SetTitleSize(def.titleSize);
-    h->GetXaxis()->SetLabelOffset(def.labelXoffset);
+    // h->GetXaxis()->SetLabelOffset(def.labelXoffset);
     h->GetYaxis()->SetLabelSize(def.labelSize);
     h->GetYaxis()->SetTitleSize(def.titleSize);
-    h->GetYaxis()->SetLabelOffset(def.labelYoffset);
+    // h->GetYaxis()->SetLabelOffset(def.labelYoffset);
     h->GetZaxis()->SetLabelSize(def.labelSize);
     h->GetZaxis()->SetTitleSize(def.titleSize);
-    h->GetZaxis()->SetLabelOffset(def.labelZoffset);
+    // h->GetZaxis()->SetLabelOffset(def.labelZoffset);
 
     // gROOT->ForceStyle();
 }

@@ -29,7 +29,7 @@ Defaults getDefaults() {
     def.maxDigitsAxes = 3;
 
     def.leftMargin   = 0.10;
-    def.rightMargin  = 0.05;
+    def.rightMargin  = 0.08;
     def.bottomMargin = 0.15;
     def.topMargin    = 0.08;
     def.leftMargin2d   = 0.10;
