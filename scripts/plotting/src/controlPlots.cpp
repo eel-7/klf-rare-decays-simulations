@@ -212,6 +212,17 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    // DKparticle_momZ vs theta
+    TH2D *h_dkmomztheta = new TH2D("h_dkmomztheta", "Decay particle z vs theta momentum direction;Momentum direction, #hat{p}_{z};Momentum direction, #hat{p}_{#theta};Counts", 100, -1, 1, 100, 0, M_PI);
+    StyleHistogram(h_dkmomztheta, kBlue);
+    tpl2->Draw("atan2(sqrt(DKparticle_momY*DKparticle_momY+DKparticle_momX*DKparticle_momX),DKparticle_momZ):DKparticle_momZ >> h_dkmomztheta", "", "COLZ");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_dkmomztheta");
+
+    S->Clear();
+
     // Ntuple3
     SetMyStyle(S);
 
