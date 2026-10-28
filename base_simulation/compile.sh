@@ -57,13 +57,19 @@ echo "Creating an environment file to source in every new session"
 cd $mainDir
 cat <<EOF > "env-klfSim"
 #!/usr/bin/env bash
-# environment file to source for making plots
+# environment file to source for running the simulation
 
 # source root
-if alias rootactivate 2>&1; then
+if alias rootactivate >/dev/null 2>&1; then
     rootactivate
 else
     module load ROOT/6.32.20-foss-2023b
+fi
+# source geant4
+if alias geantactivate >/dev/null 2>&1; then
+    geantactivate
+else
+    module load Geant4/11.2.2-GCC-13.2.0
 fi
 
 # export paths
