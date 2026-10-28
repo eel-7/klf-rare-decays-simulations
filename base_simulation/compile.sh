@@ -68,7 +68,7 @@ fi
 
 # export paths
 export LD_LIBRARY_PATH="${mainDir}/${installDir}/lib/":"${mainDir}/${installDir}/lib64/":$LD_LIBRARY_PATH
-export PATH="${mainDir}/${installDir}/bin/":$PATH
+export PATH="${mainDir}/${buildDir}/:${mainDir}/${installDir}/bin/":$PATH
 EOF
 
 chmod a+x env-klfSim

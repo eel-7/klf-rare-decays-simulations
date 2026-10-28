@@ -56,7 +56,7 @@ void JLabKRunAction::BeginOfRunAction(const G4Run*)
   G4AnalysisManager* mgr = G4AnalysisManager::Instance();
 
   // Open an output file
-  G4String fileName = "T1-250_T2-260_T3-330_T4-340_P1-215_P2-230_F1-290_F2-300_E1-400_100.root";  
+  G4String fileName = "T1-240_T2-250_T3-570_T4-580_P1-215_P2-230_F1-260_F2-270_E1-600_100.root";  
   mgr->OpenFile(fileName);
 }
 
