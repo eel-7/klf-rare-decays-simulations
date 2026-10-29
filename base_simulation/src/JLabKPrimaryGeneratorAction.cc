@@ -20,7 +20,8 @@ JLabKPrimaryGeneratorAction::~JLabKPrimaryGeneratorAction()
 void JLabKPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-  G4ParticleDefinition* particle = particleTable->FindParticle("kaon0L");
+  // G4ParticleDefinition* particle = particleTable->FindParticle("kaon0L");
+  G4ParticleDefinition* particle = particleTable->FindParticle("kaon0S");
   // G4ParticleDefinition* particle = particleTable->FindParticle("e-");
 
   fpParticleGun->SetParticleDefinition(particle);
@@ -31,7 +32,7 @@ void JLabKPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double theta = 2.0 * M_PI * G4UniformRand();
   G4double x0 = r * std::cos(theta);
   G4double y0 = r * std::sin(theta);
-  G4double z0 = 0.0;
+  G4double z0 = 290.0;
 
   fpParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
   fpParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
