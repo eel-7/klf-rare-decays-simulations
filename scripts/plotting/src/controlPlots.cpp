@@ -45,6 +45,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
     SetMyStyle(S);
     gStyle->SetOptStat("nemr");
 
+    // ====================================================================== //
     // Ntuple1
     // kaonDK_momX
     TH1D *h_xmom = new TH1D("h_xmom","Kaon x momentum (pre decay);Momentum, p_{x} [GeV/c];Counts",100,-5,5);
@@ -142,8 +143,10 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    // ====================================================================== //
     // Ntuple2
     SetMyStyle(S);
+
     // DKparticle_momX
     TH1D *h_dkmomx = new TH1D("h_dkmomx", "Decay particle x momentum direction;Momentum direction, #hat{p}_{x};Counts", 100, -1, 1);
     StyleHistogram(h_dkmomx, kBlue);
@@ -223,6 +226,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    // ====================================================================== //
     // Ntuple3
     SetMyStyle(S);
 
@@ -281,6 +285,103 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
     S->Print(outfile_);
 
     gDirectory->Delete("h_hitt");
+
+    S->Clear();
+
+    // hitX vs Y trackers
+    TH2D *h_hitxy_trackers = new TH2D("h_hitxy_trackers", "Hit X vs Y (trackers);Hit x [cm];Hit y [cm];Counts", 100, -50, 50, 100, -50, 50);
+    StyleHistogram(h_hitxy_trackers, kBlue);
+    tpl3->Draw("hitY:hitX >> h_hitxy_trackers", "deviceID>=1 && deviceID<=1952", "COLZ");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitxy_trackers");
+
+    S->Clear();
+
+    // hitZ trackers
+    S->Divide(1,4);
+    S->cd(1);
+    TH1D *h_hitz_tracker1 = new TH1D("h_hitz_tracker1", "Hit z position (trackers);Hit position, z [cm];Counts", 100, 373, 377);
+    StyleHistogram(h_hitz_tracker1, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_tracker1", "deviceID>=1 && deviceID<=488", "");
+
+    S->cd(2);
+    TH1D *h_hitz_tracker2 = new TH1D("h_hitz_tracker2", ";Hit position, z [cm];Counts", 100, 383, 387);
+    StyleHistogram(h_hitz_tracker2, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_tracker2", "deviceID>=489 && deviceID<=976", "");
+
+    S->cd(3);
+    TH1D *h_hitz_tracker3 = new TH1D("h_hitz_tracker3", ";Hit position, z [cm];Counts", 100, 413, 417);
+    StyleHistogram(h_hitz_tracker3, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_tracker3", "deviceID>=977 && deviceID<=1464", "");
+
+    S->cd(4);
+    TH1D *h_hitz_tracker4 = new TH1D("h_hitz_tracker4", ";Hit position, z [cm];Counts", 100, 423, 427);
+    StyleHistogram(h_hitz_tracker4, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_tracker4", "deviceID>=1465 && deviceID<=1952", "");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitz*");
+
+    S->Clear();
+
+    // hitX vs Y pizzas
+    TH2D *h_hitxy_pizzas = new TH2D("h_hitxy_pizzas", "Hit X vs Y (pizzas);Hit x [cm];Hit y [cm];Counts", 100, -50, 50, 100, -50, 50);
+    StyleHistogram(h_hitxy_pizzas, kBlue);
+    tpl3->Draw("hitY:hitX >> h_hitxy_pizzas", "deviceID>=1953 && deviceID<=2000", "COLZ");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitxy_pizzas");
+
+    S->Clear();
+
+    // hitZ pizzas
+    S->Divide(1,2);
+    S->cd(1);
+    TH1D *h_hitz_pizza1 = new TH1D("h_hitz_pizza1", "Hit z position (pizzas);Hit position, z [cm];Counts", 100, 345, 355);
+    StyleHistogram(h_hitz_pizza1, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_pizza1", "deviceID>=1953 && deviceID<=1976", "");
+
+    S->cd(2);
+    TH1D *h_hitz_pizza2 = new TH1D("h_hitz_pizza2", ";Hit position, z [cm];Counts", 100, 360, 370);
+    StyleHistogram(h_hitz_pizza2, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_pizza2", "deviceID>=1977 && deviceID<=2000", "");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitz*");
+
+    S->Clear();
+
+    // hitX vs Y FRIs
+    TH2D *h_hitxy_FRIs = new TH2D("h_hitxy_FRIs", "Hit X vs Y (FRIs);Hit x [cm];Hit y [cm];Counts", 200, -100, 100, 200, -100, 100);
+    StyleHistogram(h_hitxy_FRIs, kBlue);
+    tpl3->Draw("hitY:hitX >> h_hitxy_FRIs", "deviceID>=2001 && deviceID<=2052", "COLZ");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitxy_FRIs");
+
+    S->Clear();
+
+    // hitZ FRIs
+    S->Divide(1,2);
+    S->cd(1);
+    TH1D *h_hitz_FRI1 = new TH1D("h_hitz_FRI1", "Hit z position (FRIs);Hit position, z [cm];Counts", 100, 390, 400);
+    StyleHistogram(h_hitz_FRI1, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_FRI1", "deviceID>=2001 && deviceID<=2026", "");
+
+    S->cd(2);
+    TH1D *h_hitz_FRI2 = new TH1D("h_hitz_FRI2", ";Hit position, z [cm];Counts", 100, 400, 410);
+    StyleHistogram(h_hitz_FRI2, kBlue);
+    tpl3->Draw("hitZ >> h_hitz_FRI2", "deviceID>=2027 && deviceID<=2052", "");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_hitz*");
 
     S->Clear();
 
