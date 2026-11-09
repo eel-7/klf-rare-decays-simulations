@@ -288,6 +288,8 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle2D(S);
+
     // hitX vs Y trackers
     TH2D *h_hitxy_trackers = new TH2D("h_hitxy_trackers", "Hit X vs Y (trackers);Hit x [cm];Hit y [cm];Counts", 100, -50, 50, 100, -50, 50);
     StyleHistogram(h_hitxy_trackers, kBlue);
@@ -299,6 +301,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle(S);
     // hitZ trackers
     S->Divide(1,4);
     S->cd(1);
@@ -327,6 +330,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle2D(S);
     // hitX vs Y pizzas
     TH2D *h_hitxy_pizzas = new TH2D("h_hitxy_pizzas", "Hit X vs Y (pizzas);Hit x [cm];Hit y [cm];Counts", 100, -50, 50, 100, -50, 50);
     StyleHistogram(h_hitxy_pizzas, kBlue);
@@ -338,6 +342,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle(S);
     // hitZ pizzas
     S->Divide(1,2);
     S->cd(1);
@@ -356,6 +361,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle2D(S);
     // hitX vs Y FRIs
     TH2D *h_hitxy_FRIs = new TH2D("h_hitxy_FRIs", "Hit X vs Y (FRIs);Hit x [cm];Hit y [cm];Counts", 200, -100, 100, 200, -100, 100);
     StyleHistogram(h_hitxy_FRIs, kBlue);
@@ -367,6 +373,7 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
 
     S->Clear();
 
+    SetMyStyle(S);
     // hitZ FRIs
     S->Divide(1,2);
     S->cd(1);
