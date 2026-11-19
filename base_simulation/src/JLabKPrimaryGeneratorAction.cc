@@ -32,7 +32,7 @@ void JLabKPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   G4double theta = 2.0 * M_PI * G4UniformRand();
   G4double x0 = r * std::cos(theta);
   G4double y0 = r * std::sin(theta);
-  G4double z0 = 290.0;
+  G4double z0 = 210.0;
 
   fpParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
   fpParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));

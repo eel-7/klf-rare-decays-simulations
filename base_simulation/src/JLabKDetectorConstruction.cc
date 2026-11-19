@@ -224,7 +224,7 @@ G4VSolid* apert = new G4Tubs("Aperture", 0., gdTube_outerRad,    // ← gdTube_o
   // Order: x, y, u, v (xy then uv orientations)
   G4double trkrPhi[4] = {0.*deg, -90.*deg, 45.*deg, -45.*deg};
   //G4double trkrPosZ[4] = {50.*cm, 60.*cm, 130.*cm, 140.*cm}; // OLD - too close to dipole
-  G4double trkrPosZ[4] = {375.*cm, 385.*cm, 415.*cm, 425.*cm}; // CORRECTED - proper positions
+  G4double trkrPosZ[4] = {375.*cm, 385.*cm, 395.*cm, 405.*cm}; // CORRECTED - proper positions
 
   for (G4int i = 0; i < 4; i++)
   {
@@ -663,7 +663,7 @@ G4VSolid* apert = new G4Tubs("Aperture", 0., gdTube_outerRad,    // ← gdTube_o
   
 
   // Position of the FRI wall
-  G4double friPosZ[2] = {395.*cm, 405.*cm};  //replaces downstream pizzas from conceptual design - Position of FRI 
+  G4double friPosZ[2] = {415.*cm, 425.*cm};  //replaces downstream pizzas from conceptual design - Position of FRI 
   //G4double friPosZ[2] = {90.*cm, 100.*cm};  //OLD - too close to dipole
   G4double friPhi[2] = {0.*deg, 90.*deg}; // Rotation of 2 detectors
 
