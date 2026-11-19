@@ -41,6 +41,7 @@ JLabKSteppingAction::JLabKSteppingAction()
 , fKaonDK_mom()                // kaon 3-momentum at decay point (GeV/c)
 , fKaonDK_pos()                // kaon decay position (cm)
 , fDKparticleTrackID(0)        // track ID of the last recorded decay product
+, fDKparticleParentID(0)       // parent ID of the last recorded decay product
 , fV_DKparticle_mom()          // vector of decay-product momentum DIRECTIONS
 , fV_DKparticle_PDGEncoding()  // vector of decay-product PDG codes
 , fV_Edep()                    // vector of energy deposits per hit (MeV)
@@ -94,6 +95,7 @@ void JLabKSteppingAction::BeginOfEventAction()
 //     Col 5: kaonDK_posY  (cm)
 //     Col 6: kaonDK_posZ  (cm)
 //     Col 7: kaonDK_time  (ns)
+//     Col 8: kaonDK_trackID
 //
 //   Ntuple 2 — "Decay products" (one row per product per event)
 //     Col 0: evtNb
@@ -101,6 +103,8 @@ void JLabKSteppingAction::BeginOfEventAction()
 //     Col 2: DKparticle_momX  (unit direction, NOT magnitude)
 //     Col 3: DKparticle_momY
 //     Col 4: DKparticle_momZ
+//     Col 5: DKparticle_trackID
+//     Col 6: DKparticle_parentID
 //
 //   Ntuple 3 — "Detector hits" (one row per qualifying hit per event)
 //     Col 0: evtNb
@@ -111,6 +115,7 @@ void JLabKSteppingAction::BeginOfEventAction()
 //     Col 5: hitT       (ns)
 //     Col 6: deviceID   (copy number of the detector element)
 //     Col 7: PDGEncoding (particle type that made the hit)
+//     Col 8: trackID
 //
 // [TO CHANGE] If you add a new branch to any ntuple (in RunAction), you must
 //             add a corresponding FillNtupleDColumn() call here with the

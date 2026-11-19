@@ -23,6 +23,7 @@ JLabKRunAction::JLabKRunAction() : G4UserRunAction()
   mgr->CreateNtupleDColumn("kaonDK_posY");
   mgr->CreateNtupleDColumn("kaonDK_posZ");
   mgr->CreateNtupleDColumn("kaonDK_time");
+  mgr->CreateNtupleDColumn("kaonDK_trackID");
   mgr->FinishNtuple();
 
   mgr->CreateNtuple("Ntuple2", "JLabK");
@@ -31,6 +32,8 @@ JLabKRunAction::JLabKRunAction() : G4UserRunAction()
   mgr->CreateNtupleDColumn("DKparticle_momX");
   mgr->CreateNtupleDColumn("DKparticle_momY");
   mgr->CreateNtupleDColumn("DKparticle_momZ");
+  mgr->CreateNtupleDColumn("DKparticle_trackID");
+  mgr->CreateNtupleDColumn("DKparticle_parentID");
   mgr->FinishNtuple();
   
   mgr->CreateNtuple("Ntuple3", "JLabK");
@@ -42,6 +45,7 @@ JLabKRunAction::JLabKRunAction() : G4UserRunAction()
   mgr->CreateNtupleDColumn("hitT"); 
   mgr->CreateNtupleDColumn("deviceID");
   mgr->CreateNtupleDColumn("PDGEncoding");
+  mgr->CreateNtupleDColumn("trackID");
   mgr->FinishNtuple();
 }
 
@@ -56,7 +60,7 @@ void JLabKRunAction::BeginOfRunAction(const G4Run*)
   G4AnalysisManager* mgr = G4AnalysisManager::Instance();
 
   // Open an output file
-  G4String fileName = "T1-375_T2-385_T3-415_T4-425_P1-350_P2-365_F1-395_F2-405_E1-700_KS-290.root";  
+  G4String fileName = "T1-375_T2-385_T3-395_T4-405_P1-350_P2-365_F1-415_F2-425_E1-700_KS-210.root";  
   mgr->OpenFile(fileName);
 }
 
