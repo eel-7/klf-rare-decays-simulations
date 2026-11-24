@@ -25,6 +25,7 @@ private:
   G4ThreeVector fKaonDK_pos;
   G4int fDKparticleTrackID;
   G4int fDKparticleParentID;
+  std::vector<G4ThreeVector> fV_DKparticle_momDir;
   std::vector<G4ThreeVector> fV_DKparticle_mom;
   std::vector<G4int> fV_DKparticle_PDGEncoding;
 

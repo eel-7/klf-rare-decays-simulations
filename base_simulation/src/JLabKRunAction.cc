@@ -29,6 +29,9 @@ JLabKRunAction::JLabKRunAction() : G4UserRunAction()
   mgr->CreateNtuple("Ntuple2", "JLabK");
   mgr->CreateNtupleDColumn("evtNb");  
   mgr->CreateNtupleDColumn("DKparticle_PDGEncoding");
+  mgr->CreateNtupleDColumn("DKparticle_momX_dir");
+  mgr->CreateNtupleDColumn("DKparticle_momY_dir");
+  mgr->CreateNtupleDColumn("DKparticle_momZ_dir");
   mgr->CreateNtupleDColumn("DKparticle_momX");
   mgr->CreateNtupleDColumn("DKparticle_momY");
   mgr->CreateNtupleDColumn("DKparticle_momZ");

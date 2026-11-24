@@ -42,7 +42,8 @@ JLabKSteppingAction::JLabKSteppingAction()
 , fKaonDK_pos()                // kaon decay position (cm)
 , fDKparticleTrackID(0)        // track ID of the last recorded decay product
 , fDKparticleParentID(0)       // parent ID of the last recorded decay product
-, fV_DKparticle_mom()          // vector of decay-product momentum DIRECTIONS
+, fV_DKparticle_momDir()       // vector of decay-product momentum DIRECTIONS
+, fV_DKparticle_mom()          // vector of decay-product momentum
 , fV_DKparticle_PDGEncoding()  // vector of decay-product PDG codes
 , fV_Edep()                    // vector of energy deposits per hit (MeV)
 , fV_hitPos()                  // vector of hit positions (cm)
@@ -68,6 +69,7 @@ void JLabKSteppingAction::BeginOfEventAction()
   fDKparticleTrackID = -1; // -1 means no decay product recorded yet
 
   // Clear all per-event hit buffers
+  fV_DKparticle_momDir.clear();
   fV_DKparticle_mom.clear();
   fV_DKparticle_PDGEncoding.clear();
   fV_Edep.clear();
@@ -100,11 +102,14 @@ void JLabKSteppingAction::BeginOfEventAction()
 //   Ntuple 2 — "Decay products" (one row per product per event)
 //     Col 0: evtNb
 //     Col 1: DKparticle_PDGEncoding
-//     Col 2: DKparticle_momX  (unit direction, NOT magnitude)
-//     Col 3: DKparticle_momY
-//     Col 4: DKparticle_momZ
-//     Col 5: DKparticle_trackID
-//     Col 6: DKparticle_parentID
+//     Col 2: DKparticle_momX_dir  (unit direction, NOT magnitude)
+//     Col 3: DKparticle_momY_dir
+//     Col 4: DKparticle_momZ_dir
+//     Col 5: DKparticle_momX      (magnitude)
+//     Col 6: DKparticle_momY
+//     Col 7: DKparticle_momZ
+//     Col 8: DKparticle_trackID
+//     Col 9: DKparticle_parentID
 //
 //   Ntuple 3 — "Detector hits" (one row per qualifying hit per event)
 //     Col 0: evtNb
@@ -147,13 +152,17 @@ void JLabKSteppingAction::EndOfEventAction()
     G4int nbOfDKparticles = fV_DKparticle_mom.size();
     for (G4int i = 0; i < nbOfDKparticles; i++)
     {
-      G4ThreeVector DKparticle_mom = fV_DKparticle_mom.at(i); // unit direction vector
+      G4ThreeVector DKparticle_momDir = fV_DKparticle_momDir.at(i); // unit direction vector
+      G4ThreeVector DKparticle_mom = fV_DKparticle_mom.at(i); // momentum vector
 
       mgr->FillNtupleDColumn(2, 0, evtNb);
       mgr->FillNtupleDColumn(2, 1, fV_DKparticle_PDGEncoding.at(i));
-      mgr->FillNtupleDColumn(2, 2, DKparticle_mom.x()); // NOTE: direction only, not |p|
-      mgr->FillNtupleDColumn(2, 3, DKparticle_mom.y()); // [TO CHANGE] if you need |p|,
-      mgr->FillNtupleDColumn(2, 4, DKparticle_mom.z()); //   store GetMomentum() instead
+      mgr->FillNtupleDColumn(2, 2, DKparticle_momDir.x()); // NOTE: direction only, not |p|
+      mgr->FillNtupleDColumn(2, 3, DKparticle_momDir.y()); // [TO CHANGE] if you need |p|,
+      mgr->FillNtupleDColumn(2, 4, DKparticle_momDir.z()); //   store GetMomentum() instead
+      mgr->FillNtupleDColumn(2, 5, DKparticle_mom.x()); //  |p|
+      mgr->FillNtupleDColumn(2, 6, DKparticle_mom.y()); //
+      mgr->FillNtupleDColumn(2, 7, DKparticle_mom.z()); //
       mgr->AddNtupleRow(2);
     }
   }
@@ -220,7 +229,8 @@ void JLabKSteppingAction::UserSteppingAction(const G4Step* step)
   {
     fDKparticleTrackID = track->GetTrackID(); // remember this track so we don't double-count
 
-    fV_DKparticle_mom.push_back(track->GetVertexMomentumDirection()); // unit direction at birth
+    fV_DKparticle_momDir.push_back(track->GetVertexMomentumDirection()); // unit direction at birth
+    fV_DKparticle_mom.push_back(track->GetMomentum()); // momentum at birth
     fV_DKparticle_PDGEncoding.push_back(PDGEncoding);
   }
 
