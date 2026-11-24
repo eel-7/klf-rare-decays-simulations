@@ -40,15 +40,18 @@ JLabKSteppingAction::JLabKSteppingAction()
 : fKaonDK(false)               // flag: did the primary kaon decay this event?
 , fKaonDK_mom()                // kaon 3-momentum at decay point (GeV/c)
 , fKaonDK_pos()                // kaon decay position (cm)
+, fKaonDK_trackID()            // kaon trackID
 , fDKparticleTrackID(0)        // track ID of the last recorded decay product
-, fDKparticleParentID(0)       // parent ID of the last recorded decay product
 , fV_DKparticle_momDir()       // vector of decay-product momentum DIRECTIONS
 , fV_DKparticle_mom()          // vector of decay-product momentum
 , fV_DKparticle_PDGEncoding()  // vector of decay-product PDG codes
+, fV_DKparticle_trackID()      // vector of decay-product trackID
+, fV_DKparticle_parentID()     // vector of decay-product parentID
 , fV_Edep()                    // vector of energy deposits per hit (MeV)
 , fV_hitPos()                  // vector of hit positions (cm)
 , fV_deviceID()                // vector of detector element copy numbers
 , fV_PDGEncoding()             // vector of PDG codes for each hit particle
+, fV_trackID()                 // vector of decay-product trackIDs
 , fV_hitT()                    // vector of global hit times (ns)
 , fKaonDK_time(-1)             // global time of kaon decay (ns); -1 = not decayed
 {}
@@ -72,10 +75,13 @@ void JLabKSteppingAction::BeginOfEventAction()
   fV_DKparticle_momDir.clear();
   fV_DKparticle_mom.clear();
   fV_DKparticle_PDGEncoding.clear();
+  fV_DKparticle_trackID.clear();
+  fV_DKparticle_parentID.clear();
   fV_Edep.clear();
   fV_hitPos.clear();
   fV_deviceID.clear();
   fV_PDGEncoding.clear();
+  fV_trackID.clear();
   fV_hitT.clear();
 }
 
@@ -146,6 +152,7 @@ void JLabKSteppingAction::EndOfEventAction()
     mgr->FillNtupleDColumn(1, 5, fKaonDK_pos.y());
     mgr->FillNtupleDColumn(1, 6, fKaonDK_pos.z());
     mgr->FillNtupleDColumn(1, 7, fKaonDK_time / ns); // convert to ns
+    mgr->FillNtupleDColumn(1, 8, fKaonDK_trackID); // track ID
     mgr->AddNtupleRow(1); // commit this row to the ROOT file
 
     // --- Ntuple 2: one row per decay product ---
@@ -163,6 +170,8 @@ void JLabKSteppingAction::EndOfEventAction()
       mgr->FillNtupleDColumn(2, 5, DKparticle_mom.x()); //  |p|
       mgr->FillNtupleDColumn(2, 6, DKparticle_mom.y()); //
       mgr->FillNtupleDColumn(2, 7, DKparticle_mom.z()); //
+      mgr->FillNtupleDColumn(2, 8, fV_DKparticle_trackID.at(i)); // track ID
+      mgr->FillNtupleDColumn(2, 9, fV_DKparticle_parentID.at(i)); // parent ID
       mgr->AddNtupleRow(2);
     }
   }
@@ -184,6 +193,7 @@ void JLabKSteppingAction::EndOfEventAction()
     mgr->FillNtupleDColumn(3, 5, fV_hitT.at(i));      // global hit time (ns)
     mgr->FillNtupleDColumn(3, 6, fV_deviceID.at(i));  // detector element ID (copy number)
     mgr->FillNtupleDColumn(3, 7, fV_PDGEncoding.at(i)); // particle type
+    mgr->FillNtupleDColumn(3, 8, fV_trackID.at(i));     // particle trackID
     mgr->AddNtupleRow(3);
   }
 }
@@ -206,6 +216,8 @@ void JLabKSteppingAction::UserSteppingAction(const G4Step* step)
 
   // PDG code of the particle making this step (e.g. 211 = pi+, -211 = pi-, 311 = K0)
   G4int PDGEncoding = track->GetParticleDefinition()->GetPDGEncoding();
+  G4int trackID = track->GetTrackID();
+  G4int parentID = track->GetParentID();
 
   // ==========================================================================
   // A) RECORD KAON DECAY PRODUCTS (Ntuple 2)
@@ -232,6 +244,8 @@ void JLabKSteppingAction::UserSteppingAction(const G4Step* step)
     fV_DKparticle_momDir.push_back(track->GetVertexMomentumDirection()); // unit direction at birth
     fV_DKparticle_mom.push_back(track->GetMomentum()); // momentum at birth
     fV_DKparticle_PDGEncoding.push_back(PDGEncoding);
+    fV_DKparticle_trackID.push_back(trackID);
+    fV_DKparticle_parentID.push_back(parentID);
   }
 
   // Energy deposited in this step (MeV in Geant4 internal units)
@@ -269,6 +283,7 @@ void JLabKSteppingAction::UserSteppingAction(const G4Step* step)
     fKaonDK_mom  = step->GetPreStepPoint()->GetMomentum();               // 3-momentum before decay (Geant4 units)
     fKaonDK_pos  = postStepPoint->GetPosition() / cm;                    // decay position in cm
     fKaonDK_time = postStepPoint->GetGlobalTime() / ns;                  // global time in ns
+    fKaonDK_trackID = trackID;                                           // track ID of kaon
   }
 
   // Can't record a hit if there is no physical volume at the post-step point
@@ -359,6 +374,7 @@ void JLabKSteppingAction::UserSteppingAction(const G4Step* step)
       fV_Edep.push_back(Edep);                                      // MeV
       fV_hitPos.push_back(postStepPoint->GetPosition() / cm);       // cm
       fV_PDGEncoding.push_back(PDGEncoding);                        // particle type
+      fV_trackID.push_back(trackID);                                // track ID
       fV_hitT.push_back(postStepPoint->GetGlobalTime() / ns);       // ns
   }
 
