@@ -15,8 +15,10 @@
 #include <vector>
 
 #include "controlPlots.hpp"
+#include "Math/Vector4Dfwd.h"
 #include "defaultValues.hpp"
 #include "helperFunctions.hpp"
+#include "util.hpp"
 
 #include "TDirectory.h"
 #include "TFile.h"
@@ -25,6 +27,8 @@
 #include "TStyle.h"
 #include "TTree.h"
 #include "TH2D.h"
+
+#define DEBUG
 
 void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain *tpl2, TChain *tpl3) {
 
@@ -479,6 +483,13 @@ int main(int argc, char **argv) {
     gDirectory->Delete("tpl3");
 
     std::cout << "[INFO] Done writing to pdf." << std::endl;
+
+#ifdef DEBUG
+    std::vector<double> mom = {1e6, 2e5, 1e7};
+    double mass = 139.6e6; // eV/c^2
+
+    ROOT::Math::PxPyPzEVector fourMom = get4Momentum(mom, mass);
+#endif
 
 
     return 0;
