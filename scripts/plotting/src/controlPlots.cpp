@@ -16,6 +16,8 @@
 
 #include "controlPlots.hpp"
 #include "Math/Vector4Dfwd.h"
+#include "Rtypes.h"
+#include "calcMomentum.hpp"
 #include "defaultValues.hpp"
 #include "helperFunctions.hpp"
 #include "util.hpp"
@@ -395,6 +397,19 @@ void makePlots(std::string outDir, std::string outputFile, TChain *tpl1, TChain 
     gDirectory->Delete("h_hitz*");
 
     S->Clear();
+
+    //=================================================//
+    // momentum vs opening angle
+
+    SetMyStyle2D(S);
+
+    TH2D *h_openingAngleMomentum = openingAnglePlot(tpl1, tpl2);
+    StyleHistogram(h_openingAngleMomentum, kBlue);
+    h_openingAngleMomentum->Draw("COLZ");
+
+    S->Print(outfile_);
+
+    gDirectory->Delete("h_openingAngleEnergy");
 
 
     S->Print(outfile_close);

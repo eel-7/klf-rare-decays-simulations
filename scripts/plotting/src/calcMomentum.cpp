@@ -5,6 +5,7 @@
 //============================================//
 
 #include "calcMomentum.hpp"
+#include "Math/Vector3Dfwd.h"
 #include "RtypesCore.h"
 
 #include <cmath>
@@ -82,11 +83,45 @@ TH2D* openingAnglePlot( TChain* ch1, TChain* ch2 ) {
     for (Long64_t i=0; i<nEvents; ++i) {
 
         ch1->GetEntry(i);
+        std::vector<ROOT::Math::XYZVector> momenta;
+        int nDKparticles = 0;
 
         for (Long64_t j=n; j<nEvents2; ++j) {
 
             ch2->GetEntry(j);
+
+            if (evtNb2 < evtNb1) continue;
+
+            if (evtNb2 == evtNb1) {
+                // check for pi+ or pi-
+                if (pdg == 211 || pdg == -211) {
+                    nDKparticles += 1;
+                    ROOT::Math::XYZVector p_temp(dkPrtclMomX, dkPrtclMomY, dkPrtclMomZ);
+                    momenta.push_back(p_temp);
+                    // momenta.at(nDKparticles-1).SetXYZ(dkPrtclMomX, dkPrtclMomY, dkPrtclMomZ);
+                }
+                else {
+                    std::cout << "Decay particle is not a pi+ or pi-. Skipping..." << std::endl;
+                }
+            }
+
+            if (evtNb2 > evtNb1) {
+                // set the loop to start here next time
+                n=j;
+                break;
+            }
         }
+
+        if (momenta.size() == 2) {
+            double delta = openingAngle(momenta.at(0), momenta.at(1));
+            double p = std::sqrt(kaonDK_momX*kaonDK_momX + kaonDK_momY*kaonDK_momY + kaonDK_momZ*kaonDK_momZ);
+
+            hist->Fill(delta, p);
+        }
+        else {
+            std::cout << "There are not 2 decay particles that are pi+ pi-. Not adding to histogram..." << std::endl;
+        }
+        momenta.clear();
     }
 
     return hist;
