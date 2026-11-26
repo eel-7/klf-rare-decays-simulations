@@ -485,10 +485,21 @@ int main(int argc, char **argv) {
     std::cout << "[INFO] Done writing to pdf." << std::endl;
 
 #ifdef DEBUG
-    std::vector<double> mom = {1e6, 2e5, 1e7};
+    std::vector<double> mom = {1e9, 2e8, 1e10};
     double mass = 139.6e6; // eV/c^2
 
-    ROOT::Math::PxPyPzEVector fourMom = get4Momentum(mom, mass);
+    ROOT::Math::PxPyPzMVector fourMom = get4Momentum(mom, mass);
+
+    Particle pion;
+    std::cout << "[DEBUG] pion name         = " << pion.name << std::endl;
+    std::cout << "[DEBUG] pion momentum x   = " << pion.threeMomentum.X() << std::endl;
+    std::cout << "[DEBUG] pion momentum y   = " << pion.threeMomentum.Y() << std::endl;
+    std::cout << "[DEBUG] pion momentum z   = " << pion.threeMomentum.Z() << std::endl;
+    std::cout << "[DEBUG] pion mass         = " << pion.mass << std::endl;
+
+    fourMom = get4Momentum(pion.threeMomentum, pion.mass);
+
+    ROOT::Math::PxPyPzMVector fourMomv2 = pion.fourMomentum();
 #endif
 
 
